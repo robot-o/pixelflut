@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 import pixelflut
 import os
 import time
@@ -10,6 +11,9 @@ def guess_IP():
     try:
         s.connect(("google.com", 80))
         return s.getsockname()[0]
+    except:
+        print('Could not establish network connection, running locally.')
+        return 'localhost'
     finally:
         s.close()
 

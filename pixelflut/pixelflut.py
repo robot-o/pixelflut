@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 #coding: utf8
 
 __version__ = '0.6'
@@ -226,7 +227,8 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
     import optparse
-    parser = optparse.OptionParser("usage: %prog [options] brain_script")
+    parser = optparse.OptionParser("usage: %prog [options]")
+    # parser = optparse.OptionParser("usage: %prog [options] brain_script")
     parser.add_option("-H", "--host", dest="hostname",
                       default="0.0.0.0", type="string",
                       help="specify hostname to run on")
@@ -235,12 +237,17 @@ if __name__ == '__main__':
 
     (options, args) = parser.parse_args()
     if len(args) != 1:
-        parser.error("incorrect number of arguments")
+        # parser.error("incorrect number of arguments")
+        print("no brainfile specified, using default brain.py")
+        brainfile = "./brain.py"
+    else:
+        brainfile = args[0]    
 
     canvas = Canvas()
     task = spawn(canvas.serve, options.hostname, options.portnum)
     
-    brainfile = args[0]
+    # brainfile = "./brain.py"
+    # brainfile = args[0]
     mtime = 0
     
     while True:
@@ -250,6 +257,7 @@ if __name__ == '__main__':
             canvas.events.clear()
             try:
                 execfile(brainfile, {'on':canvas.on, '__file__': brainfile})
+                # exec(open(brainfile).read(), {'on':canvas.on, '__file__':brainfile})
             except:
                 log.exception('Brain failed')
                 continue

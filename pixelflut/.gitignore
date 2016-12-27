@@ -1,0 +1,10 @@
+# ignore everything
+/*
+/*/
+
+# inverse ignore what we actually want to keep
+!.gitignore
+!.gitattributes
+!README.*
+!/*.py
+!/*.png
